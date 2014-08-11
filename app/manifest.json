@@ -1,8 +1,8 @@
 {
-    "name": "__MSG_appName__",
-    "version": "0.0.1",
+    "name": "Kiosk Manager",
+    "version": "0.0.14",
     "manifest_version": 2,
-    "description": "__MSG_appDescription__",
+    "description": "An extension for managing a public kiosk, including removing session data, blocking urls, and injecting a touch screen keyboard.",
     "icons": {
         "16": "images/icon-16.png",
         "128": "images/icon-128.png"
@@ -11,29 +11,33 @@
     "background": {
         "scripts": [
             "scripts/chromereload.js",
+            "scripts/session_manager.js",
             "scripts/background.js"
         ]
     },
-  "options_page": "options.html",
-  "content_scripts": [
-    {
-      "matches": [
+    "options_page": "options.html",
+    "content_scripts": [
+        {
+            "matches": [
+                "http://*/*",
+                "https://*/*"
+            ],
+            "css": [
+                "styles/main.css"
+            ],
+            "js": [
+                "scripts/contentscript.js"
+            ],
+            "run_at": "document_end",
+            "all_frames": false
+        }
+    ],
+    "permissions": [
+        "tabs",
+        "storage",
+        "cookies",
+        "idle",
         "http://*/*",
         "https://*/*"
-      ],
-      "css": [
-        "styles/main.css"
-      ],
-      "js": [
-        "scripts/contentscript.js"
-      ],
-      "run_at": "document_end",
-      "all_frames": false
-    }
-  ],
-  "permissions": [
-    "tabs",
-    "http://*/*",
-    "https://*/*"
-  ]
+    ]
 }

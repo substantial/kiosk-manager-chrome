@@ -6,7 +6,8 @@
 
   this.KioskManager = {
     init: function() {
-      sessionManager.setResetTimer();
+      sessionManager.init();
+      whitelistUrls.init();
     }
   };
 

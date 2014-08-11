@@ -12,6 +12,13 @@
         chrome.tabs.remove(tabIds.slice(1));
       });
     },
+    dataListeners: function() {
+      chrome.storage.onChanged.addListener(function(changes, areaName) {
+        if (areaName === "local" && changes.timeout) {
+          chrome.idle.setDetectionInterval(parseInt(changes.timeout.newValue));
+        }
+      });
+    },
     destroyAllCookies: function() {
       chrome.cookies.getAll({}, function(cookies) {
         var cookie, _i, _len;
@@ -22,6 +29,10 @@
           });
         }
       });
+    },
+    init: function() {
+      sessionManager.dataListeners();
+      sessionManager.setResetTimer();
     },
     navigateToRoot: function() {
       chrome.storage.local.get({

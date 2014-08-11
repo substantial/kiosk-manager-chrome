@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "kiosk manager",
+    "description": "The name of the application"
+  },
+  "appDescription": {
+    "message": "Extension to manage a public kiosk, including url blocking, removal of session data, and providing a touch screen keyboard.",
+    "description": "The description of the application"
+  }
+}

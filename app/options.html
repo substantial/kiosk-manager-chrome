@@ -10,8 +10,23 @@
         <!-- endbuild -->
     </head>
     <body>
-        <h1>'Allo, 'Allo!</h1>
-                
+        <h1>Options</h1>
+        <hr>
+        <form>
+            <label for="homepage">
+                Kiosk home page URL:
+                <input name="homepage" id="rootUrl" type="text" placeholder="ex: http://www.google.com">
+            </label><br>
+            <label for="timeout">
+                Idle time limit until redirect to home page (in seconds):
+                <input name="timeout" id="timeout" type="number" placeholder="60">
+            </label><br>
+            <label for="whitelist">
+                Whitelist of acceptable domains:<br>
+                <textarea name="whitelist" id="whitelist" cols="60" rows="10" placeholder="use comma separated values. ex: 'google.com, facebook.com"></textarea>
+            </label><br>
+            <button id="save">Save</button>
+        </form>
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
         <!-- endbower -->

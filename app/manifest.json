@@ -1,6 +1,6 @@
 {
     "name": "Kiosk Manager",
-    "version": "0.0.14",
+    "version": "0.0.44",
     "manifest_version": 2,
     "description": "An extension for managing a public kiosk, including removing session data, blocking urls, and injecting a touch screen keyboard.",
     "icons": {
@@ -11,6 +11,7 @@
     "background": {
         "scripts": [
             "scripts/chromereload.js",
+            "scripts/whitelistUrls.js",
             "scripts/session_manager.js",
             "scripts/background.js"
         ]
@@ -37,6 +38,8 @@
         "storage",
         "cookies",
         "idle",
+        "webRequest",
+        "webRequestBlocking",
         "http://*/*",
         "https://*/*"
     ]

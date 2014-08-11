@@ -54,14 +54,16 @@
     setResetTimer: function() {
       return chrome.storage.local.get({
         timeout: 60
-      }, function(items) {
-        chrome.idle.setDetectionInterval(parseInt(items.timeout));
-        chrome.idle.onStateChanged.addListener(function(newState) {
-          if (newState !== "active") {
-            resetSession();
-          }
-        });
-      });
+      }, (function(_this) {
+        return function(items) {
+          chrome.idle.setDetectionInterval(parseInt(items.timeout));
+          chrome.idle.onStateChanged.addListener(function(newState) {
+            if (newState !== "active") {
+              _this.resetSession();
+            }
+          });
+        };
+      })(this));
     }
   };
 

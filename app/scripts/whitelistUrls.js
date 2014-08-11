@@ -38,7 +38,7 @@
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         domain = _ref[_i];
         re = new RegExp('.*' + domain + '.*');
-        if (re.test(domain)) {
+        if (re.test(url)) {
           return true;
         }
       }

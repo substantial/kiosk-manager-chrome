@@ -10,6 +10,7 @@
 		chrome.webRequest.onBeforeRequest.addListener (details) =>
 			if details.type == "main_frame" && !@isWhitelisted details.url
 				return { redirectUrl: @rootUrl }
+			return
 		, { urls: ["http://*/*", "https://*/*"] }
 		, ["blocking"]
 		return
@@ -25,7 +26,7 @@
 	isWhitelisted: (url) ->
 		for domain in @whitelist
 			re = new RegExp('.*' + domain + '.*')
-			return true if re.test domain
+			return true if re.test url
 		false
 
 	retreiveStore: ->

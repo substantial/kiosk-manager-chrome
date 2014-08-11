@@ -46,9 +46,9 @@
 		return
 
 	setResetTimer: ->
-		chrome.storage.local.get { timeout: 60 }, (items) ->
+		chrome.storage.local.get { timeout: 60 }, (items) =>
 			chrome.idle.setDetectionInterval parseInt(items.timeout)
-			chrome.idle.onStateChanged.addListener (newState) ->
-				resetSession() unless newState == "active"
+			chrome.idle.onStateChanged.addListener (newState) =>
+				@resetSession() unless newState == "active"
 				return
 			return

@@ -7,5 +7,7 @@ chrome.runtime.onInstalled.addListener (details) ->
 
 	init: ->
 		sessionManager.init()
+		whitelistUrls.init()
+		return
 
 KioskManager.init()

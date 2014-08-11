@@ -9,6 +9,14 @@
 			return
 		return
 
+	dataListeners: ->
+		chrome.storage.onChanged.addListener (changes, areaName) ->
+			if areaName == "local" && changes.timeout
+				chrome.idle.setDetectionInterval parseInt(changes.timeout.newValue)
+			return
+		return
+
+	# !caution! this method will delete ALL cookies in the current browser session
 	destroyAllCookies: ->
 		chrome.cookies.getAll {}, (cookies) ->
 			for cookie in cookies
@@ -16,6 +24,13 @@
 			return
 		return
 
+	init: ->
+		sessionManager.dataListeners()
+		sessionManager.setResetTimer()
+		return
+
+	# defaults root page to google. Will be overridden be value of rootUrl in storage
+	# if it exists
 	navigateToRoot: ->
 		chrome.storage.local.get { rootUrl: "http://www.google.com "}, (items) ->
 			chrome.tabs.query { active: true }, (tabs) ->

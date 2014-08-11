@@ -12,9 +12,7 @@
 				document.getElementById('timeout').value = items.timeout
 				whitelist = items.whitelist
 				document.getElementById('whitelist').value = whitelist.join(', ')
-				return
 		)
-		return
 
 	saveOptions: ->
 		url = document.getElementById('rootUrl').value
@@ -25,7 +23,6 @@
 			timeout: timeout
 			whitelist: whitelist.split(", ")
 		})
-		return
 
 document.addEventListener 'DOMContentLoaded', @options.restoreOptions
 document.getElementById('save').addEventListener 'click', @options.saveOptions

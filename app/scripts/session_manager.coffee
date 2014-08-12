@@ -20,6 +20,8 @@
         tabIds.push tab.id
       chrome.tabs.remove tabIds.slice(1)
 
+  # Makes sure all relevant variables are updated if any changes are made on
+  # the options page
   dataListeners: ->
     chrome.storage.onChanged.addListener (changes, areaName) ->
       if changes.timeout

@@ -49,6 +49,7 @@
     sessionManager.setResetTimer()
     sessionManager.setTabBlocking()
     sessionManager.setBrowserReOpener()
+    sessionManger.openPort()
 
   # defaults root page to google. Will be overridden be value of rootUrl in
   # storage if it exists
@@ -56,6 +57,11 @@
     chrome.storage.local.get { rootUrl: "http://www.google.com "}, (items) ->
       chrome.tabs.query {}, (tabs) ->
         chrome.tabs.update tabs[0].id, { url: items.rootUrl }
+
+  openPort: ->
+    chrome.runtime.onConnect.addListener (port) =>
+      port.onMessage.addListener (msg) =>
+        @executeMessage(msg)
   
   reOpenBrowser: ->
     chrome.windows.getAll {}, (windows) ->

@@ -1,6 +1,6 @@
 {
     "name": "Kiosk Manager",
-    "version": "0.0.107",
+    "version": "0.0.112",
     "manifest_version": 2,
     "description": "An extension for managing a public kiosk, including removing session data, blocking urls, and injecting a touch screen keyboard.",
     "icons": {
@@ -27,12 +27,15 @@
                 "styles/main.css"
             ],
             "js": [
-                "scripts/session-manager-api.js",
+                "scripts/session_manager_api.js",
                 "scripts/contentscript.js"
             ],
             "run_at": "document_end",
             "all_frames": false
         }
+    ],
+    "web_accessible_resources": [
+        "scripts/session_manager_dom_api.js"
     ],
     "permissions": [
         "tabs",

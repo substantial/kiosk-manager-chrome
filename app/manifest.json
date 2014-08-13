@@ -39,6 +39,7 @@
         "storage",
         "cookies",
         "idle",
+        "history",
         "webRequest",
         "webRequestBlocking",
         "http://*/*",

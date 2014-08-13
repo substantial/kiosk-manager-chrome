@@ -19,7 +19,6 @@
     else
       chrome.storage.local.get "timeout", (items) ->
         chrome.idle.setDetectionInterval parseInt(items.timeout)
-    console.log "idle interval is now " + interval || items.timeout
   
   closeExtraTabs: ->
     tabIds = []
@@ -45,11 +44,15 @@
       for cookie in cookies
         chrome.cookies.remove { name: cookie.name }
 
+  destroyHistory: ->
+    chrome.history.deleteAll()
+
   executeMessage: (msg) ->
     @resetSession() if msg.reset
     @destroyAllCookies if msg.clearPersonalInfo
     @changeResetInterval(msg.resetInterval.newInterval) if msg.resetInterval
     console.log msg.console if msg.console
+    @destroyHistory if msg.destroyHistory
 
   forceBrowserReOpen: ->
     chrome.windows.onRemoved.addListener sessionManager.reOpenBrowser
@@ -94,6 +97,7 @@
     # sessionManager.destroyAllCookies()
     sessionManager.navigateToRoot()
     sessionManager.fullscreenMode()
+    sessionManager.destroyHistory()
 
   setBrowserReOpener: ->
     chrome.storage.local.get { forceReOpen: true }, (items) =>

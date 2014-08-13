@@ -9,5 +9,7 @@
   clearPersonalInfo: ->
     @port.postMessage { clearPersonalInfo: true  }
 
+  changeResetInterval: (interval) ->
+    @port.postMessage { moreTime: { newInterval: interval } }
+
 chromeSessionAPI.openPort()
-chromeSessionAPI.DOMListener()

@@ -12,6 +12,15 @@
           chrome.tabs.remove tab.id
     else
       chrome.tabs.remove tab.id unless tab.index == 0
+
+  changeResetInterval: (interval) ->
+    if interval
+      chrome.idle.setDetectionInterval parseInt(interval)
+      console.log "idle reset interval set to " + interval
+    else
+      chrome.storage.local.get "timeout", (items) ->
+        chrome.idle.setDetectionInterval parseInt(items.timeout)
+        console.log "idle reset interval set to " + items.timeout
   
   closeExtraTabs: ->
     tabIds = []
@@ -25,17 +34,23 @@
   dataListeners: ->
     chrome.storage.onChanged.addListener (changes, areaName) ->
       if changes.timeout
-        chrome.idle.setDetectionInterval parseInt(changes.timeout.newValue)
+        sessionManager.changeResetInterval parseInt(changes.timeout.newValue)
       else if changes.tabBlocking
         sessionManager.setTabBlocking()
       else if changes.forceReOpen
-        sessionManager.setBrowswerReOpener()
+        sessionManager.setBrowserReOpener()
 
   # !caution! this method will delete ALL cookies in the current browser session
   destroyAllCookies: ->
     chrome.cookies.getAll {}, (cookies) ->
       for cookie in cookies
         chrome.cookies.remove { name: cookie.name }
+
+  executeMessage: (msg) ->
+    @resetSession() if msg.reset
+    @destroyAllCookies if msg.clearPersonalInfo
+    @changeResetInterval(msg.moreTime.newInterval) if msg.moreTime
+    console.log msg.console if msg.console
 
   forceBrowserReOpen: ->
     chrome.windows.onRemoved.addListener sessionManager.reOpenBrowser
@@ -49,7 +64,7 @@
     sessionManager.setResetTimer()
     sessionManager.setTabBlocking()
     sessionManager.setBrowserReOpener()
-    sessionManger.openPort()
+    sessionManager.openPort()
 
   # defaults root page to google. Will be overridden be value of rootUrl in
   # storage if it exists

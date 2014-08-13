@@ -8,5 +8,11 @@ chrome.runtime.onInstalled.addListener (details) ->
   init: ->
     sessionManager.init()
     whitelistUrls.init()
+    @navigationListener()
+
+  navigationListener: ->
+    chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
+      if changeInfo.url
+        chrome.tabs.sendMessage tabId, { navigation: changeInfo.url }
 
 KioskManager.init()

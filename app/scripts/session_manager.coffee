@@ -12,6 +12,13 @@
           chrome.tabs.remove tab.id
     else
       chrome.tabs.remove tab.id unless tab.index == 0
+
+  changeResetInterval: (interval) ->
+    if interval
+      chrome.idle.setDetectionInterval parseInt(interval)
+    else
+      chrome.storage.local.get "timeout", (items) ->
+        chrome.idle.setDetectionInterval parseInt(items.timeout)
   
   closeExtraTabs: ->
     tabIds = []
@@ -25,17 +32,27 @@
   dataListeners: ->
     chrome.storage.onChanged.addListener (changes, areaName) ->
       if changes.timeout
-        chrome.idle.setDetectionInterval parseInt(changes.timeout.newValue)
+        sessionManager.changeResetInterval parseInt(changes.timeout.newValue)
       else if changes.tabBlocking
         sessionManager.setTabBlocking()
       else if changes.forceReOpen
-        sessionManager.setBrowswerReOpener()
+        sessionManager.setBrowserReOpener()
 
   # !caution! this method will delete ALL cookies in the current browser session
   destroyAllCookies: ->
     chrome.cookies.getAll {}, (cookies) ->
       for cookie in cookies
         chrome.cookies.remove { name: cookie.name }
+
+  destroyHistory: ->
+    chrome.history.deleteAll()
+
+  executeMessage: (msg) ->
+    @resetSession() if msg.reset
+    @destroyAllCookies if msg.clearPersonalInfo
+    @changeResetInterval(msg.resetInterval.newInterval) if msg.resetInterval
+    console.log msg.console if msg.console
+    @destroyHistory if msg.destroyHistory
 
   forceBrowserReOpen: ->
     chrome.windows.onRemoved.addListener sessionManager.reOpenBrowser
@@ -49,6 +66,7 @@
     sessionManager.setResetTimer()
     sessionManager.setTabBlocking()
     sessionManager.setBrowserReOpener()
+    sessionManager.openPort()
 
   # defaults root page to google. Will be overridden be value of rootUrl in
   # storage if it exists
@@ -56,6 +74,13 @@
     chrome.storage.local.get { rootUrl: "http://www.google.com "}, (items) ->
       chrome.tabs.query {}, (tabs) ->
         chrome.tabs.update tabs[0].id, { url: items.rootUrl }
+
+  # registers a message listener to receive messages from the kioskSessionAPI
+  # content script API
+  openPort: ->
+    chrome.runtime.onConnect.addListener (port) =>
+      port.onMessage.addListener (msg) =>
+        @executeMessage(msg)
   
   reOpenBrowser: ->
     chrome.windows.getAll {}, (windows) ->
@@ -72,6 +97,7 @@
     # sessionManager.destroyAllCookies()
     sessionManager.navigateToRoot()
     sessionManager.fullscreenMode()
+    sessionManager.destroyHistory()
 
   setBrowserReOpener: ->
     chrome.storage.local.get { forceReOpen: true }, (items) =>

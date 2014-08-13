@@ -26,7 +26,7 @@
 
   insertDomApi: ->
     script = document.createElement 'script'
-    script.src = chrome.extension.getURL('scripts/session_manager_dom_api.js')
+    script.src = chrome.extension.getURL('scripts/resources/kiosk_session_dom_api.js')
     (document.head || document.documentElement).appendChild(script)
 
   listenToDom: ->

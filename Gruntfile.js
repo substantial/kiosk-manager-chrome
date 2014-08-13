@@ -309,6 +309,7 @@ module.exports = function (grunt) {
                         'styles/{,*/}*.css',
                         'styles/fonts/{,*/}*.*',
                         '_locales/{,*/}*.json',
+                        'scripts/resources/*.js'
                     ]
                 }]
             }

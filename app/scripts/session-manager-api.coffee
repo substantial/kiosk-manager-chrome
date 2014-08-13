@@ -1,4 +1,4 @@
-@chromeSessionAPI =
+@kioskSessionAPI =
 
   openPort: ->
     @port = chrome.runtime.connect()
@@ -10,6 +10,15 @@
     @port.postMessage { clearPersonalInfo: true  }
 
   changeResetInterval: (interval) ->
-    @port.postMessage { moreTime: { newInterval: interval } }
+    @port.postMessage { resetInterval: { newInterval: interval } }
 
-chromeSessionAPI.openPort()
+  tempResetInterval: (interval) ->
+    port = @port
+    @changeResetInterval(interval)
+    chrome.runtime.onMessage.addListener (message, sender, sendResponse) ->
+      if message.navigation
+        port.postMessage { resetInterval: {} }
+        chrome.runtime.onMessage.removeListener(this)
+      sendResponse({})
+
+kioskSessionAPI.openPort()

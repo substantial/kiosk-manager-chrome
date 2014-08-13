@@ -16,11 +16,10 @@
   changeResetInterval: (interval) ->
     if interval
       chrome.idle.setDetectionInterval parseInt(interval)
-      console.log "idle reset interval set to " + interval
     else
       chrome.storage.local.get "timeout", (items) ->
         chrome.idle.setDetectionInterval parseInt(items.timeout)
-        console.log "idle reset interval set to " + items.timeout
+    console.log "idle interval is now " + interval || items.timeout
   
   closeExtraTabs: ->
     tabIds = []
@@ -49,7 +48,7 @@
   executeMessage: (msg) ->
     @resetSession() if msg.reset
     @destroyAllCookies if msg.clearPersonalInfo
-    @changeResetInterval(msg.moreTime.newInterval) if msg.moreTime
+    @changeResetInterval(msg.resetInterval.newInterval) if msg.resetInterval
     console.log msg.console if msg.console
 
   forceBrowserReOpen: ->
@@ -73,6 +72,8 @@
       chrome.tabs.query {}, (tabs) ->
         chrome.tabs.update tabs[0].id, { url: items.rootUrl }
 
+  # registers a message listener to receive messages from the kioskSessionAPI
+  # content script API
   openPort: ->
     chrome.runtime.onConnect.addListener (port) =>
       port.onMessage.addListener (msg) =>

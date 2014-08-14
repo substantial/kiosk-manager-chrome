@@ -38,21 +38,29 @@
       else if changes.forceReOpen
         sessionManager.setBrowserReOpener()
 
-  # !caution! this method will delete ALL cookies in the current browser session
-  destroyAllCookies: ->
-    chrome.cookies.getAll {}, (cookies) ->
-      for cookie in cookies
-        chrome.cookies.remove { name: cookie.name }
-
-  destroyHistory: ->
-    chrome.history.deleteAll ->
+  # !caution! this method will clear virtually all browsing data from Chrome.
+  clearBrowsingData: ->
+    chrome.browsingData.remove {}, {
+      "appcache": true
+      "cache": true
+      "cookies": true
+      "downloads": true
+      "fileSystems": true
+      "formData": true
+      "history": true
+      "indexedDB": true
+      "localStorage": true
+      "serverBoundCertificates": true
+      "pluginData": true
+      "passwords": true
+      "webSQL": true
+    }
 
   executeMessage: (msg) ->
     @resetSession() if msg.reset
-    @destroyAllCookies if msg.clearPersonalInfo
+    @clearBrowsingData() if msg.clearPersonalInfo
     @changeResetInterval(msg.resetInterval.newInterval) if msg.resetInterval
     console.log msg.console if msg.console
-    @destroyHistory if msg.destroyHistory
 
   forceBrowserReOpen: ->
     chrome.windows.onRemoved.addListener @reOpenBrowser
@@ -94,10 +102,9 @@
 
   resetSession: ->
     @closeExtraTabs()
-    # @destroyAllCookies()
+    # @clearBrowsingData()
     @navigateToRoot()
     @fullscreenMode()
-    @destroyHistory()
 
   setBrowserReOpener: ->
     chrome.storage.local.get { forceReOpen: true }, (items) =>

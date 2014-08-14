@@ -16,14 +16,6 @@
         }
       }, "*");
     },
-    clearHistory: function() {
-      return window.postMessage({
-        type: "FROM_KIOSK_API",
-        msg: {
-          destroyHistory: true
-        }
-      }, "*");
-    },
     changeResetInterval: function(interval) {
       return window.postMessage({
         type: "FROM_KIOSK_API",

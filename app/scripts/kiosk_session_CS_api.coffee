@@ -9,9 +9,6 @@
   clearPersonalInfo: ->
     @port.postMessage { clearPersonalInfo: true  }
 
-  clearHistory: ->
-    @port.postMessage { destroyHistory: true }
-
   changeResetInterval: (interval) ->
     @port.postMessage { resetInterval: { newInterval: interval } }
 

@@ -45,7 +45,7 @@
         chrome.cookies.remove { name: cookie.name }
 
   destroyHistory: ->
-    chrome.history.deleteAll()
+    chrome.history.deleteAll ->
 
   executeMessage: (msg) ->
     @resetSession() if msg.reset

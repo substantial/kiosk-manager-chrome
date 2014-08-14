@@ -20,21 +20,29 @@
       document.getElementById('inject-script').value = items.script
     )
 
-  saveOptions: ->
+  saveOptions: (event) ->
+    event.preventDefault()
     url = document.getElementById('rootUrl').value
     timeout = document.getElementById('timeout').value
     whitelist = document.getElementById('whitelist').value
     tabBlocking = document.getElementById('tab-blocking').checked
     forceReOpen = document.getElementById('force-reopen').checked
     script = document.getElementById('inject-script').value
-    chrome.storage.local.set({
+    chrome.storage.local.set
       rootUrl: url
       timeout: timeout
       whitelist: whitelist.split(", ")
       tabBlocking: tabBlocking
       forceReopen: forceReOpen
       script: script
-    })
+    , ->
+      el = document.getElementById('messages')
+      if chrome.runtime.lastError
+        el.classList.add('error')
+        el.innerHTML = 'An error occured attempting to save your settings.'
+      else
+        el.classList.add('success')
+        el.innerHTML = 'Your settings were updated successfully.'
 
 document.addEventListener 'DOMContentLoaded', @options.restoreOptions
 document.getElementById('save').addEventListener 'click', @options.saveOptions

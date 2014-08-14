@@ -1,4 +1,44 @@
 $padding: 20px;
+$font: 'Helvetica', 'sans-serif';
+$gray: #999;
+$green: #BBEBB7;
+$red: #EBB7CC;
 body {
     padding: $padding;
+    font-family: $font;
+}
+h1 {
+  margin: 0.25em;
+}
+form {
+  width: 60%;
+}
+input[type=text] {
+  width: 60%;
+}
+textarea {
+  width: 100%;
+}
+input, textarea {
+  border-radius: 4px;
+  margin-bottom: 1.5em;
+}
+.muted {
+  color: $gray;
+  font-size: 0.75em;
+}
+button {
+  height: 30px;
+  width: 70px;
+  font-size: 18px;
+  border-radius: 4px;
+}
+#messages {
+  padding: 0.25em;
+  &.success {
+    background-color: $green;
+  }
+  &.error {
+    background-color: $red;
+  }
 }

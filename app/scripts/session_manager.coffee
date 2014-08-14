@@ -1,7 +1,7 @@
 @sessionManager =
 
   blockNewTabs: ->
-    chrome.tabs.onCreated.addListener sessionManager.blockTab
+    chrome.tabs.onCreated.addListener @blockTab
 
   blockTab: (tab) ->
     # check to see if tab is being opened from Chrome extension page so as not
@@ -55,18 +55,18 @@
     @destroyHistory if msg.destroyHistory
 
   forceBrowserReOpen: ->
-    chrome.windows.onRemoved.addListener sessionManager.reOpenBrowser
+    chrome.windows.onRemoved.addListener @reOpenBrowser
 
   fullscreenMode: ->
     chrome.tabs.query {}, (tabs) ->
       chrome.windows.update tabs[0].windowId, { state: "fullscreen" }
 
   init: ->
-    sessionManager.dataListeners()
-    sessionManager.setResetTimer()
-    sessionManager.setTabBlocking()
-    sessionManager.setBrowserReOpener()
-    sessionManager.openPort()
+    @dataListeners()
+    @setResetTimer()
+    @setTabBlocking()
+    @setBrowserReOpener()
+    @openPort()
 
   # defaults root page to google. Will be overridden be value of rootUrl in
   # storage if it exists
@@ -93,11 +93,11 @@
     )
 
   resetSession: ->
-    sessionManager.closeExtraTabs()
-    # sessionManager.destroyAllCookies()
-    sessionManager.navigateToRoot()
-    sessionManager.fullscreenMode()
-    sessionManager.destroyHistory()
+    @closeExtraTabs()
+    # @destroyAllCookies()
+    @navigateToRoot()
+    @fullscreenMode()
+    @destroyHistory()
 
   setBrowserReOpener: ->
     chrome.storage.local.get { forceReOpen: true }, (items) =>
@@ -114,7 +114,7 @@
       if items.tabBlocking then @blockNewTabs() else @unBlockNewTabs()
 
   unBlockNewTabs: ->
-    chrome.tabs.onCreated.removeListener sessionManager.blockTab
+    chrome.tabs.onCreated.removeListener @blockTab
 
   unForceBrowserReOpen: ->
-    chrome.windows.onRemoved.removeListener sessionManager.reOpenBrowser
+    chrome.windows.onRemoved.removeListener @reOpenBrowser

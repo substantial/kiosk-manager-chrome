@@ -39,6 +39,6 @@
         else
           @port.postMessage event.data.msg
 
-kioskSessionApi.openPort()
-kioskSessionApi.insertDomApi()
-kioskSessionApi.listenToDom()
+kioskSessionCSApi.openPort()
+kioskSessionCSApi.insertDomApi()
+kioskSessionCSApi.listenToDom()

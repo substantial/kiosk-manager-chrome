@@ -9,6 +9,7 @@
       whitelist: []
       tabBlocking: true
       forceReOpen: true
+      script: null
       }, (items) ->
       document.getElementById('rootUrl').value = items.rootUrl
       document.getElementById('timeout').value = items.timeout
@@ -16,6 +17,7 @@
       document.getElementById('whitelist').value = whitelist.join(', ')
       document.getElementById('tab-blocking').checked = items.tabBlocking
       document.getElementById('force-reopen').checked = items.forceReOpen
+      document.getElementById('inject-script').value = items.script
     )
 
   saveOptions: ->
@@ -24,12 +26,14 @@
     whitelist = document.getElementById('whitelist').value
     tabBlocking = document.getElementById('tab-blocking').checked
     forceReOpen = document.getElementById('force-reopen').checked
+    script = document.getElementById('inject-script').value
     chrome.storage.local.set({
       rootUrl: url
       timeout: timeout
       whitelist: whitelist.split(", ")
       tabBlocking: tabBlocking
-      forceReopen: forceReopen
+      forceReopen: forceReOpen
+      script: script
     })
 
 document.addEventListener 'DOMContentLoaded', @options.restoreOptions

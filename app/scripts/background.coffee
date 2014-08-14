@@ -8,6 +8,7 @@ chrome.runtime.onInstalled.addListener (details) ->
   init: ->
     sessionManager.init()
     whitelistUrls.init()
+    scriptInjector.init()
     @navigationListener()
 
   navigationListener: ->

@@ -102,7 +102,7 @@
 
   resetSession: ->
     @closeExtraTabs()
-    # @clearBrowsingData()
+    @clearBrowsingData()
     @navigateToRoot()
     @fullscreenMode()
 

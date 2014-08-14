@@ -73,3 +73,7 @@ The extension exposes a `kioskSessionDomApi` object to the DOM which you can acc
 
 ### Content Script API
 If you choose to add any additional content scripts, the extension also exposes a `kioskSessionCSAPI` for use in your content scripts. The methods provided are the same as the DOM API above.
+
+Attribution
+------------
+Kiosk icon designed by [Ahmed Elzahra]("http://www.thenounproject.com/trochilidae") from the [Noun Project]("http://www.thenounproject.com").

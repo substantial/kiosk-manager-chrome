@@ -1,9 +1,8 @@
 {
     "name": "Kiosk Manager",
-    "version": "0.0.143",
+    "version": "0.0.167",
     "manifest_version": 2,
-    "description": "An extension for managing a public kiosk, including removing session data, blocking urls, and injecting a touch screen keyboard.",
-    "icons": {
+    "description": "An extension for managing a public kiosk, including removing session data, blocking urls, injecting JavaScript."
         "16": "images/icon-16.png",
         "128": "images/icon-128.png"
     },
@@ -23,9 +22,6 @@
             "matches": [
                 "http://*/*",
                 "https://*/*"
-            ],
-            "css": [
-                "styles/main.css"
             ],
             "js": [
                 "scripts/kiosk_session_CS_api.js",

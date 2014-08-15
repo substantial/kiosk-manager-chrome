@@ -58,7 +58,10 @@ There are two ways to include additional JavaScript for the extension to execute
 
 + Small amounts of JS code can be pasted into the 'JavaScript to inject' field in the options page. Code placed here will be executed every time a new page loads.
 
-+ You can add additional [content scripts](https://developer.chrome.com/extensions/content_scripts) to the **app/scripts/content-scripts/** directory before building the extension. Scripts add here must be added to the extension's [manifest file](https://developer.chrome.com/extensions/manifest) in **app/manifest.json** before building. Files added here will be automatically minified by the Grunt task at build time.
++ You can add additional [content scripts](https://developer.chrome.com/extensions/content_scripts) to the **app/scripts/content-scripts/** directory before building the extension. Scripts added here must be added to the extension's [manifest file](https://developer.chrome.com/extensions/manifest) in **app/manifest.json** before building. Files added here will be automatically minified by the Grunt task at build time.
+
+### Web Accessible Resources
+Images, icons, CSS, additional JavaScript, etc. that is used by any added content scripts must be added to the extension's registry of [web accessible resources](https://developer.chrome.com/extensions/manifest/web_accessible_resources). These files can be added to the **app/scripts/resources/** directory to be automatically added to the manifest.
 
 APIs
 -----
@@ -76,4 +79,4 @@ If you choose to add any additional content scripts, the extension also exposes 
 
 Attribution
 ------------
-Kiosk icon designed by [Ahmed Elzahra]("http://www.thenounproject.com/trochilidae") from the [Noun Project]("http://www.thenounproject.com").
+Kiosk icon designed by [Ahmed Elzahra](http://www.thenounproject.com/trochilidae) from the [Noun Project](http://www.thenounproject.com).

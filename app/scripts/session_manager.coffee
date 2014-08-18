@@ -66,8 +66,8 @@
     chrome.windows.onRemoved.addListener @reOpenBrowser
 
   fullscreenMode: ->
-    chrome.tabs.query {}, (tabs) ->
-      chrome.windows.update tabs[0].windowId, { state: "fullscreen" }
+    chrome.windows.getLastFocused (window) ->
+      chrome.windows.update window.id, { state: "fullscreen" }
 
   init: ->
     @dataListeners()
@@ -91,16 +91,17 @@
         @executeMessage(msg)
   
   reOpenBrowser: ->
-    chrome.windows.getAll {}, (windows) ->
+    chrome.windows.getAll {}, (windows) =>
       if windows.length == 0
         chrome.windows.create({
           focused: true
           type: 'normal'
-        }, ->
-          sessionManager.resetSession()
+        }, =>
+          @sessionManager.resetSession()
     )
 
   resetSession: ->
+    console.log("Session is resetting!!")
     @closeExtraTabs()
     @clearBrowsingData()
     @navigateToRoot()

@@ -36,6 +36,13 @@ Generate the complete packageable extension into the **dist/** directory
 5. click "Load unpacked extension..." and select the $PROJECT_ROOT/dist directory
 6. Make sure the `Enabled` checkbox is checked for the extension to use it
 
+## WARNING - THIS EXTENSION CAN DELETE ALL OF YOUR COOKIES AND BROWSING DATA
+**By default the extension will delete all browsing data including cookies, browsing history, etc. from Chrome when the `sessionManager.resetSession` method is called.** 
+
+To prevent your data from being deleted, open Chrome in a sandboxed session from the terminal: `/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --user-data-dir=/tmp/kiosk-manager-user/ google.com`
+
+You can also comment out the call to `@clearBrowsingData()` from the `sessionManager.resetSession` method before building.
+
 
 Deployment
 ----------

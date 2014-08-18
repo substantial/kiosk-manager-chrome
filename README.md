@@ -15,12 +15,14 @@ Development
 
 + [Node.js](http://nodejs.org) installed
 + [Grunt.js](http://gruntjs.com) installed
++ [Bower](http://bower.io) installed
 + [CoffeeScript](http://coffeescript.org) installed
 
 ### Setup
 1. `git clone git@github.com:mattpetrie/kiosk-manager-chrome.git`
 2. `cd kiosk-manager-chrome`
 3. `npm install`
+4. `bower install`
 
 ### Building
 Generate the complete packageable extension into the **dist/** directory

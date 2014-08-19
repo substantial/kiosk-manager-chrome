@@ -30,13 +30,13 @@
   # Makes sure all relevant variables are updated if any changes are made on
   # the options page
   dataListeners: ->
-    chrome.storage.onChanged.addListener (changes, areaName) ->
+    chrome.storage.onChanged.addListener (changes, areaName) =>
       if changes.timeout
-        sessionManager.changeResetInterval parseInt(changes.timeout.newValue)
+        @changeResetInterval parseInt(changes.timeout.newValue)
       else if changes.tabBlocking
-        sessionManager.setTabBlocking()
+        @setTabBlocking()
       else if changes.forceReOpen
-        sessionManager.setBrowserReOpener()
+        @setBrowserReOpener()
 
   # !caution! this method will clear virtually all browsing data from Chrome.
   clearBrowsingData: ->
@@ -103,8 +103,8 @@
   resetSession: ->
     console.log("Session is resetting!!")
     @closeExtraTabs()
-    @clearBrowsingData()
     @navigateToRoot()
+    @clearBrowsingData()
     @fullscreenMode()
 
   setBrowserReOpener: ->

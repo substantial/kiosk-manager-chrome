@@ -23,11 +23,16 @@
   saveOptions: (event) ->
     event.preventDefault()
     url = document.getElementById('rootUrl').value
+    
+    #add root url's domain to whitelist to prevent redirect loop
+    options.whitelistRoot(url)
+
     timeout = document.getElementById('timeout').value
     whitelist = document.getElementById('whitelist').value
     tabBlocking = document.getElementById('tab-blocking').checked
     forceReOpen = document.getElementById('force-reopen').checked
     script = document.getElementById('inject-script').value
+
     chrome.storage.local.set
       rootUrl: url
       timeout: timeout
@@ -43,6 +48,12 @@
       else
         el.classList.add('success')
         el.innerHTML = 'Your settings were updated successfully.'
+
+  whitelistRoot: (url) ->
+    rootDomain = url.split(/:\/\//)[1]
+    whitelist = document.getElementById('whitelist')
+    unless whitelist.value.indexOf(rootDomain) != -1
+      whitelist.value += ", " + rootDomain
 
 document.addEventListener 'DOMContentLoaded', @options.restoreOptions
 document.getElementById('save').addEventListener 'click', @options.saveOptions

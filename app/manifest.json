@@ -1,6 +1,6 @@
 {
     "name": "Kiosk Manager",
-    "version": "0.0.179",
+    "version": "0.0.187",
     "manifest_version": 2,
     "description": "An extension for managing a public kiosk, including removing session data, blocking urls, injecting JavaScript.",
     "icons": {

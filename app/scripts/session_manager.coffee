@@ -81,7 +81,8 @@
   navigateToRoot: ->
     chrome.storage.local.get { rootUrl: "http://www.google.com "}, (items) ->
       chrome.tabs.query {}, (tabs) ->
-        chrome.tabs.update tabs[0].id, { url: items.rootUrl }
+        unless tabs[0].url == items.rootUrl
+          chrome.tabs.update tabs[0].id, { url: items.rootUrl }
 
   # registers a message listener to receive messages from the kioskSessionAPI
   # content script API

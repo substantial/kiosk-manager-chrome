@@ -79,9 +79,9 @@
   # defaults root page to google. Will be overridden be value of rootUrl in
   # storage if it exists
   navigateToRoot: ->
-    chrome.storage.local.get { rootUrl: "http://www.google.com "}, (items) ->
+    chrome.storage.local.get { rootUrl: "http://www.google.com", preventHomeReset: false }, (items) ->
       chrome.tabs.query {}, (tabs) ->
-        unless tabs[0].url == items.rootUrl
+        unless tabs[0].url == items.rootUrl || items.preventHomeReset
           chrome.tabs.update tabs[0].id, { url: items.rootUrl }
 
   # registers a message listener to receive messages from the kioskSessionAPI

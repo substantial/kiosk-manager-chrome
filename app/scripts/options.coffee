@@ -6,6 +6,7 @@
     chrome.storage.local.get({
       rootUrl: ''
       timeout: 60
+      preventHomeReset: false
       whitelist: []
       tabBlocking: true
       forceReOpen: true
@@ -14,6 +15,7 @@
       document.getElementById('rootUrl').value = items.rootUrl
       document.getElementById('timeout').value = items.timeout
       whitelist = items.whitelist
+      document.getElementById('home-page-reset').checked = items.preventHomeReset
       document.getElementById('whitelist').value = whitelist.join(', ')
       document.getElementById('tab-blocking').checked = items.tabBlocking
       document.getElementById('force-reopen').checked = items.forceReOpen
@@ -28,6 +30,7 @@
     options.whitelistRoot(url)
 
     timeout = document.getElementById('timeout').value
+    preventHomeReset = document.getElementById('home-page-reset').checked
     whitelist = document.getElementById('whitelist').value
     tabBlocking = document.getElementById('tab-blocking').checked
     forceReOpen = document.getElementById('force-reopen').checked
@@ -36,6 +39,7 @@
     chrome.storage.local.set
       rootUrl: url
       timeout: timeout
+      preventHomeReset: preventHomeReset
       whitelist: whitelist.split(", ")
       tabBlocking: tabBlocking
       forceReopen: forceReOpen

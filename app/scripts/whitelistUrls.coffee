@@ -1,9 +1,9 @@
 @whitelistUrls =
 
   init: ->
-    whitelistUrls.retreiveStore()
-    whitelistUrls.dataListeners()
-    whitelistUrls.blockUrls()
+    @retreiveStore()
+    @dataListeners()
+    @blockUrls()
   
   blockUrls: ->
     chrome.webRequest.onBeforeRequest.addListener (details) =>
@@ -24,7 +24,7 @@
   isWhitelisted: (url) ->
     for domain in @whitelist
       re = new RegExp('.*' + domain + '.*')
-      return true if re.test url
+      return true if url == @rootUrl || re.test url
     false
 
   retreiveStore: ->

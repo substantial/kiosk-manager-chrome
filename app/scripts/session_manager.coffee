@@ -30,13 +30,13 @@
   # Makes sure all relevant variables are updated if any changes are made on
   # the options page
   dataListeners: ->
-    chrome.storage.onChanged.addListener (changes, areaName) ->
+    chrome.storage.onChanged.addListener (changes, areaName) =>
       if changes.timeout
-        sessionManager.changeResetInterval parseInt(changes.timeout.newValue)
+        @changeResetInterval parseInt(changes.timeout.newValue)
       else if changes.tabBlocking
-        sessionManager.setTabBlocking()
+        @setTabBlocking()
       else if changes.forceReOpen
-        sessionManager.setBrowserReOpener()
+        @setBrowserReOpener()
 
   # !caution! this method will clear virtually all browsing data from Chrome.
   clearBrowsingData: ->
@@ -79,9 +79,10 @@
   # defaults root page to google. Will be overridden be value of rootUrl in
   # storage if it exists
   navigateToRoot: ->
-    chrome.storage.local.get { rootUrl: "http://www.google.com "}, (items) ->
+    chrome.storage.local.get { rootUrl: "http://www.google.com", preventHomeReset: false }, (items) ->
       chrome.tabs.query {}, (tabs) ->
-        chrome.tabs.update tabs[0].id, { url: items.rootUrl }
+        unless tabs[0].url == items.rootUrl || items.preventHomeReset
+          chrome.tabs.update tabs[0].id, { url: items.rootUrl }
 
   # registers a message listener to receive messages from the kioskSessionAPI
   # content script API
@@ -103,8 +104,8 @@
   resetSession: ->
     console.log("Session is resetting!!")
     @closeExtraTabs()
-    @clearBrowsingData()
     @navigateToRoot()
+    @clearBrowsingData()
     @fullscreenMode()
 
   setBrowserReOpener: ->
